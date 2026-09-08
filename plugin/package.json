@@ -1,0 +1,22 @@
+{
+  "name": "@deverai/hub",
+  "description": "DeverAI Hub - static Cordis workbench plugin for DeepSeek Harness (files/terminal/checkpoints dock following the DSH workspace)",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "dependencies": {},
+  "license": "MIT"
+}

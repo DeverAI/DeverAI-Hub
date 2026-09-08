@@ -1,0 +1,6 @@
+- insert:
+    - id: deverai-hub
+      name: '@deverai/hub'
+- insert:
+    - id: deverai-model-router
+      name: '@deverai/model-router'

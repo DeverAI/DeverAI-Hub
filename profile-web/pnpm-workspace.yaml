@@ -1,0 +1,7 @@
+packages:
+  - deverai-model-router
+  - deverai-hub
+  - .
+
+nodeLinker: hoisted
+autoInstallPeers: false

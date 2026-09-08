@@ -1,0 +1,11 @@
+{
+  "name": "@deverai/model-router",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Score-based multi-model auto router for the DeverAI harness fork (env-gated).",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js"
+  }
+}
