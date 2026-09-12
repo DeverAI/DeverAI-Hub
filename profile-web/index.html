@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DeverAI 鈥?椤圭洰寮曞</title>
+  <meta name="description" content="DeverAI 椤圭洰鍦板浘锛欰I 宸ヤ綔鍙般€佹暀鑲插伐鍏枫€佹ā鎷熸父鎴忎笌鐮旂┒瀹為獙銆? />
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --bg-soft: #121820;
+      --card: #161d27;
+      --line: #243041;
+      --ink: #e8eef7;
+      --muted: #8b9bb0;
+      --accent: #5b9dff;
+      --accent-2: #7c6cff;
+      --ok: #3ecf8e;
+      --warn: #f0b429;
+      --radius: 14px;
+      --max: 1080px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #1a2740 0%, var(--bg) 55%);
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 40px 20px 80px; }
+
+    header.hero {
+      padding: 28px 0 18px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 28px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
+    }
+    .mark {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid; place-items: center;
+      font-weight: 700; letter-spacing: 0.5px; color: #fff;
+      box-shadow: 0 8px 24px rgba(91, 157, 255, 0.25);
+    }
+    h1 {
+      margin: 0; font-size: clamp(28px, 4vw, 40px); font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .tagline { color: var(--muted); max-width: 62ch; margin: 0 0 18px; }
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      font-size: 12px; padding: 4px 10px; border-radius: 999px;
+      border: 1px solid var(--line); background: var(--bg-soft); color: var(--muted);
+    }
+    .pill b { color: var(--ink); font-weight: 600; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+      margin: 18px 0 36px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px 16px 14px;
+      display: flex; flex-direction: column; gap: 8px;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #3a4d6a;
+    }
+    .card.flagship {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #17233a 0%, #1a1a2e 100%);
+      border-color: #33507a;
+    }
+    .card h3 { margin: 0; font-size: 16px; font-weight: 650; }
+    .card h3 a { color: var(--ink); }
+    .card p { margin: 0; color: var(--muted); font-size: 13.5px; flex: 1; }
+    .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .tag {
+      font-size: 11px; padding: 2px 8px; border-radius: 6px;
+      background: rgba(91, 157, 255, 0.12); color: #9ec2ff;
+    }
+    .tag.gh { background: rgba(124, 108, 255, 0.12); color: #b7adff; }
+    .tag.ok { background: rgba(62, 207, 142, 0.12); color: #6ee0ad; }
+    .tag.warn { background: rgba(240, 180, 41, 0.12); color: #f5cf6a; }
+
+    section { margin: 28px 0 8px; }
+    section h2 {
+      font-size: 18px; margin: 0 0 6px; font-weight: 650;
+      display: flex; align-items: center; gap: 10px;
+    }
+    section h2 .n {
+      font-size: 12px; color: var(--muted); font-weight: 500;
+      border: 1px solid var(--line); padding: 2px 8px; border-radius: 999px;
+    }
+    section > p.hint { color: var(--muted); font-size: 13px; margin: 0 0 12px; }
+
+    .chooser {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin: 8px 0 28px;
+    }
+    .chooser label { font-size: 13px; color: var(--muted); display: block; margin-bottom: 8px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      cursor: pointer; user-select: none;
+      border: 1px solid var(--line); background: var(--card);
+      color: var(--muted); border-radius: 999px; padding: 6px 12px; font-size: 13px;
+    }
+    .chip.active {
+      border-color: var(--accent);
+      color: var(--ink);
+      background: rgba(91, 157, 255, 0.12);
+    }
+    .result {
+      margin-top: 12px; padding: 12px 14px; border-radius: 10px;
+      background: rgba(62, 207, 142, 0.08); border: 1px solid rgba(62, 207, 142, 0.25);
+      font-size: 14px; display: none;
+    }
+    .result.show { display: block; }
+    .result strong { color: var(--ok); }
+
+    footer {
+      margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line);
+      color: var(--muted); font-size: 12.5px;
+      display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between;
+    }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 24px 14px 56px; }
+      .card.flagship { grid-column: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="brand">
+        <div class="mark">DA</div>
+        <div>
+          <h1>DeverAI</h1>
+          <div class="tagline">鏈湴浼樺厛鐨?AI 宸ヤ綔鍙?路 鏁欒偛宸ュ叿 路 妯℃嫙涓庣爺绌跺疄楠屽満銆侫gent 璺戝湪鏈満杩涚▼閲岋紝鎿嶄綔鐪熷疄鏂囦欢涓庣湡瀹炲懡浠よ銆?/div>
+        </div>
+      </div>
+      <div class="pills">
+        <span class="pill"><b>25</b> 浠撳簱</span>
+        <span class="pill"><b>22</b> 鍏紑</span>
+        <span class="pill"><b>3</b> 绉佹湁</span>
+        <span class="pill">Python 路 JS/TS 路 PyQt 路 FastAPI</span>
+        <span class="pill">OpenAI 鍏煎澶氭ā鍨?/span>
+      </div>
+    </header>
+
+    <div class="chooser">
+      <label>浣犳兂鍋氫粈涔堬紵鐐逛竴涓嬬洿鎺ヨ烦鍒版帹鑽愰」鐩?/label>
+      <div class="chips" id="chips">
+        <button class="chip" data-key="agent">璺戞湰鍦?AI Agent</button>
+        <button class="chip" data-key="zhongkao">涓€?/ 鑷嫑瀛︿範</button>
+        <button class="chip" data-key="oi">淇℃伅瀛﹀ゥ璧涗笓娉?/button>
+        <button class="chip" data-key="ime">鍨傚煙杈撳叆娉曡瘝搴?/button>
+        <button class="chip" data-key="trans">鍒掕瘝缈昏瘧</button>
+        <button class="chip" data-key="game">鐜╂ā鎷熸父鎴?/button>
+        <button class="chip" data-key="sec">Windows 閫嗗悜 / 婕忔礊瑙傚療</button>
+        <button class="chip" data-key="rate">璇勬祴澶фā鍨嬩骇鍝?/button>
+      </div>
+      <div class="result" id="result"></div>
+    </div>
+
+    <section>
+      <h2>鏃楄埌 路 AI 宸ヤ綔鍙?<span class="n">0</span></h2>
+      <p class="hint">鏂囦欢鍒嗗尯骞跺彂 路 绠楀姏婕傜Щ 路 WorkTree 涓夊眰澶囦唤 路 澶栧彂瀹℃牳</p>
+      <div class="grid">
+        <article class="card flagship">
+          <div class="meta">
+            <span class="tag ok">涓讳骇鍝?/span>
+            <span class="tag">PyQt6</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">CLI</span>
+            <span class="tag">Lite</span>
+          </div>
+          <h3><a href="https://github.com/DeverAI/DeverAI" target="_blank" rel="noopener">DeverAI</a></h3>
+          <p>妗岄潰 / 缃戦〉 / CLI / Lite / 鍚屾鏈嶅姟鍣?/ Cordis 鎻掍欢鍏叆鍙ｃ€備笓瀹跺洟 DAG 鍒嗗眰骞惰锛涘伐浣滅姸鎬佸彲鎺ㄩ€佽嚜鏈夋湇鍔″櫒鍐峰缁亰锛涘嵄闄╂搷浣滃洓绔悓婧愮‘璁ゃ€?/p>
+        </article>
+        <article class="card">
+          <div class="meta"><span class="tag gh">鏋㈢航</span><span class="tag">plugin</span><span class="tag">router</span></div>
+          <h3><a href="https://github.com/DeverAI/DeverAI-Hub" target="_blank" rel="noopener">DeverAI-Hub</a></h3>
+          <p>涓汉涓婚〉銆佹彃浠朵笌鍖呭垎鍙戯細model-router銆丆ordis 鎻掍欢銆侀儴缃茶剼鏈笌濂戠害娴嬭瘯銆?/p>
+        </article>
+        <article class="card">
+          <div class="meta"><span class="tag">鍩虹璁炬柦</span></div>
+          <h3><a href="https://github.com/DeverAI/dsh-harness-fork" target="_blank" rel="noopener">dsh-harness-fork</a></h3>
+          <p>DSH harness 鍒嗘敮锛屾帴鍏?DeverAI 璺敱璁捐锛坈onfig / lib锛夈€?/p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>鏁欒偛 路 瀛︿範绯荤粺 <span class="n">1</span></h2>
+      <p class="hint">鑷嫑绱犳潗 路 棰樺簱鎵规敼 路 OI 涓撴敞 路 璇嶅簱绠″ 路 鍊掕鏃?/p>
+      <div class="grid" id="grid-edu"></div>
+    </section>
+
+    <section>
+      <h2>娓告垙 路 妯℃嫙鍣?<span class="n">2</span></h2>
+      <p class="hint">鍦ㄤ俊鎭糠闆鹃噷浣撲細鐝富浠汇€佸崥澹€侀琛屽憳鐨勭湡瀹為噸閲?/p>
+      <div class="grid" id="grid-game"></div>
+    </section>
+
+    <section>
+      <h2>妗岄潰宸ュ叿 路 鏁堢巼 <span class="n">3</span></h2>
+      <div class="grid" id="grid-tool"></div>
+    </section>
+
+    <section>
+      <h2>鐮旂┒ 路 瀹夊叏 路 鍒涗綔 <span class="n">4</span></h2>
+      <div class="grid" id="grid-res"></div>
+    </section>
+
+    <section>
+      <h2>璺ㄤ粨绾﹀畾 <span class="n">5</span></h2>
+      <div class="grid">
+        <article class="card">
+          <h3>瀵嗛挜涓嶈繘 git</h3>
+          <p>鐜鍙橀噺鎴栨湰鍦?<code>api.txt</code> / <code>config.json</code>锛屼粨搴撲晶涓€寰?gitignore銆?/p>
+        </article>
+        <article class="card">
+          <h3>鏂囨。鍥涗欢濂?/h3>
+          <p><code>Design.md</code> / <code>Techniques.md</code> / <code>Fact.md</code> / <code>FreqErr.md</code> 鏍囬厤鍒嗕粨銆?/p>
+        </article>
+        <article class="card">
+          <h3>鍙璁＄殑瀹夊叏榛樿</h3>
+          <p>鍗遍櫓鍛戒护纭銆佹枃浠跺揩鐓с€佸璁℃棩蹇楀敖閲忛綈澶囷紱AI 鍒犻櫎榛樿绂佹銆?/p>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <span>DeverAI 路 Local-first AI workbench &amp; experiment field</span>
+      <span>GitHub: <a href="https://github.com/DeverAI" target="_blank" rel="noopener">github.com/DeverAI</a></span>
+    </footer>
+  </div>
+
+  <script>
+    const DATA = {
+      edu: [
+        { name: "learning-agent", desc: "棰樺簱 / OCR / AI 鎵规敼 / 涓撴敞妯″紡锛團astAPI + Web锛?, tags: ["鏈嶅姟"], url: "https://github.com/DeverAI/learning-agent" },
+        { name: "learning-agent-v2", desc: "v2锛欰ndroid 瀹㈡埛绔€佽鍫傜壒鎬с€佸紑鍙戞棩蹇?, tags: ["鏈嶅姟", "Android"], url: "https://github.com/DeverAI/learning-agent-v2" },
+        { name: "zizhao-learning", desc: "涓婃捣涓€冭嚜鎷涙瘡鏃ョ礌鏉愶細鍝插 / 鍘嗗彶 / 鍙よ瘲鏂?+ 鎵捐尙杩介棶", tags: ["鑷嫑", "AGPL"], url: "https://github.com/DeverAI/zizhao-learning" },
+        { name: "OISystem", desc: "淇℃伅瀛﹀ゥ璧涙闈笓娉ㄧ郴缁燂細AI 寮曞銆佸睆骞曞垎鏋愩€乑ZOI銆佸浘璁虹紪杈戝櫒", tags: ["妗岄潰", "OI"], url: "https://github.com/DeverAI/OISystem" },
+        { name: "focus-tools", desc: "FocusTools / OISystem v1.0.0 鍙戝竷鍖?, tags: ["鍙戝竷"], url: "https://github.com/DeverAI/focus-tools" },
+        { name: "OpenIME", desc: "寰蒋鎷奸煶鐢ㄦ埛璇嶅簱绠″锛氬瀭鍩熸湳璇鍏?, tags: ["妗岄潰", "IME"], url: "https://github.com/DeverAI/OpenIME" },
+        { name: "zhongkao-widget", desc: "涓€冨€掕鏃舵闈㈠皬缁勪欢锛堝湪鏍?/ 妯¤€?/ 鍐滃巻 / 璇剧▼锛?, tags: ["妗岄潰"], url: "https://github.com/DeverAI/zhongkao-widget" },
+        { name: "study-workbench", desc: "涓汉瀛︿範宸ヤ綔鍙板悗绔笌閮ㄧ讲", tags: ["鏈嶅姟"], url: "https://github.com/DeverAI/study-workbench" }
+      ],
+      game: [
+        { name: "homeroom-simulator", desc: "鐝富浠绘ā鎷熷櫒锛氫俊鎭糠闆?+ 瀹堕暱缇?+ 浼犻椈閾?+ LLM 瀵硅瘽", tags: ["鍙欎簨", "Node"], url: "https://github.com/DeverAI/homeroom-simulator" },
+        { name: "homeroom-simulator-flask", desc: "鍚屼富棰?Flask 鍚庣 + 闈欐€佸墠绔増", tags: ["Flask"], url: "https://github.com/DeverAI/homeroom-simulator-flask" },
+        { name: "paper-writing-simulator", desc: "涔濇涓€鐢燂細鍗氬＋姣曚笟妯℃嫙鍣紙寮€棰樷啋鐩插鈫掔瓟杈╋級", tags: ["鍛ㄥ洖鍚?, "LLM"], url: "https://github.com/DeverAI/paper-writing-simulator" },
+        { name: "battlian", desc: "绛栫暐瀵规垬锛歅ython + Web 鍙岀増鏈紝AI 鎸囨尌瀹?, tags: ["绛栫暐"], url: "https://github.com/DeverAI/battlian" },
+        { name: "tactical-simulation", desc: "FALCON-SIM 鎴樻湳椋炶锛氳捣椋?/ 鎶曞脊 / 韬查伩 / 鎷︽埅绛変竷浠诲姟", tags: ["Three.js"], url: "https://github.com/DeverAI/tactical-simulation" }
+      ],
+      tool: [
+        { name: "DeepTrans", desc: "鍒掕瘝缈昏瘧锛氫换鎰忓簲鐢ㄩ€変腑鏂囨湰 鈫?鎮诞绐楋紱MiMo / DeepSeek + 鏈虹炕鍏滃簳", tags: ["妗岄潰", "PyQt6"], url: "https://github.com/DeverAI/DeepTrans" },
+        { name: "AIrater", desc: "澶фā鍨嬩骇鍝佽瘎娴嬶細澶?API銆佽仈缃戞悳绱€佽嚜鍔ㄧ籂鍋忋€佸彲瑙嗗寲鍒嗘瀽", tags: ["璇勬祴"], url: "https://github.com/DeverAI/AIrater" }
+      ],
+      res: [
+        { name: "retrace", desc: "Windows 婕忔礊鏌ユ壘鍒嗘瀽鍙嶅悜宸ュ叿锛堟姄鍖?/ 娉ㄥ唽琛?/ 鍙嶇紪璇?/ MV3 / LLM锛?, tags: ["瀹夊叏", "PyQt6"], url: "https://github.com/DeverAI/retrace" },
+        { name: "qinglian-platform", desc: "闈掑皯骞翠簰鑱旂綉骞冲彴鍚堣鐩戞祴锛氫妇鎶?鈫?瀹℃牳 鈫?妗堜緥 / 璁哄潧 / 鐭ヨ瘑搴?, tags: ["鍚堣", "FastAPI"], url: "https://github.com/DeverAI/qinglian-platform" },
+        { name: "airender", desc: "AI 寤烘ā椹卞姩 3D 瑙嗛娓叉煋娴佹按绾匡紙鍏樁娈碉紝鍙€夋湰鍦版墿鏁ｏ級", tags: ["娓叉煋"], url: "https://github.com/DeverAI/airender" },
+        { name: "dba-attention-genetic", desc: "娉ㄦ剰鍔涢仐浼犵爺绌讹細Difference-Based Attention 鎷熷悎瀹為獙", tags: ["鐮旂┒"], url: "https://github.com/DeverAI/dba-attention-genetic" }
+      ]
+    };
+
+    const GUIDE = {
+      agent: ["DeverAI", "https://github.com/DeverAI/DeverAI", "鏃楄埌妗岄潰/缃戦〉/CLI Agent 宸ヤ綔鍙帮紝鍏堜粠 README 鐨勫叚鍏ュ彛琛ㄥ惎鍔ㄣ€?],
+      zhongkao: ["zizhao-learning + zhongkao-widget", "https://github.com/DeverAI/zizhao-learning", "鑷嫑姣忔棩绱犳潗鐢?zizhao-learning锛涙闈㈠€掕鏃剁敤 zhongkao-widget銆?],
+      oi: ["OISystem", "https://github.com/DeverAI/OISystem", "涓撴敞妯″紡 + ZZOI 闆嗘垚 + 灞忓箷鍒嗘瀽 + 鍥捐缂栬緫鍣ㄣ€?],
+      ime: ["OpenIME", "https://github.com/DeverAI/OpenIME", "鎶婅涔?璇嶈〃瀵煎叆寰蒋鎷奸煶鐢ㄦ埛璇嶅簱锛岄瑙堢‘璁ゅ悗鍐欏叆銆?],
+      trans: ["DeepTrans", "https://github.com/DeverAI/DeepTrans", "閫変腑浠绘剰搴旂敤鏂囨湰鑷姩寮规偓娴炕璇戠獥銆?],
+      game: ["homeroom-simulator / paper-writing-simulator", "https://github.com/DeverAI/homeroom-simulator", "鎯冲綋鐝富浠婚€夊墠鑰咃紝鎯虫椿鍒版瘯涓氶€夊悗鑰咃紱椋炶妯℃嫙鐪?tactical-simulation銆?],
+      sec: ["retrace", "https://github.com/DeverAI/retrace", "鎶撳寘銆佹敞鍐岃〃銆佸弽缂栬瘧銆佹祻瑙堝櫒瑙傚療 + LLM 瀹¤锛屾矇娣€缁忛獙搴撱€?],
+      rate: ["AIrater", "https://github.com/DeverAI/AIrater", "澶氭ā鍨嬩骇鍝佽瘎娴嬶紝鏀寔鑱旂綉鎼滅储涓庤嚜鍔ㄧ籂鍋忋€?]
+    };
+
+    function cardHTML(item) {
+      const tags = (item.tags || []).map(t => `<span class="tag">${t}</span>`).join("");
+      return `<article class="card">
+        <div class="meta">${tags}</div>
+        <h3><a href="${item.url}" target="_blank" rel="noopener">${item.name}</a></h3>
+        <p>${item.desc}</p>
+      </article>`;
+    }
+
+    document.getElementById("grid-edu").innerHTML = DATA.edu.map(cardHTML).join("");
+    document.getElementById("grid-game").innerHTML = DATA.game.map(cardHTML).join("");
+    document.getElementById("grid-tool").innerHTML = DATA.tool.map(cardHTML).join("");
+    document.getElementById("grid-res").innerHTML = DATA.res.map(cardHTML).join("");
+
+    const chips = document.getElementById("chips");
+    const result = document.getElementById("result");
+    chips.addEventListener("click", (e) => {
+      const btn = e.target.closest(".chip");
+      if (!btn) return;
+      [...chips.querySelectorAll(".chip")].forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      const g = GUIDE[btn.dataset.key];
+      if (!g) return;
+      result.innerHTML = `鎺ㄨ崘锛?a href="${g[1]}" target="_blank" rel="noopener"><strong>${g[0]}</strong></a><br/><span style="color:var(--muted)">${g[2]}</span>`;
+      result.classList.add("show");
+    });
+  </script>
+</body>
+</html>
